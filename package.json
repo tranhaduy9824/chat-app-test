@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run server & npm run socket",
-    "server": "node --unhandled-rejections=strict server/index.js",
-    "socket": "node --unhandled-rejections=strict socket/index.js",
+    "start": "npm run server",
+    "server": "node server/index.js",
     "build": "npm install --prefix client && npm run build --prefix client",
-    "install:all": "npm install && npm install --prefix client && npm install --prefix server && npm install --prefix socket",
+    "install:all": "npm install && npm install --prefix client && npm install --prefix server",
     "postinstall": "npm run build"
   },
   "author": "",
