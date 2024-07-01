@@ -4,11 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run server",
+    "start": "nodemon server/index.js",
     "server": "node server/index.js",
-    "build": "npm install --prefix client && npm run build --prefix client",
-    "install:all": "npm install && npm install --prefix client && npm install --prefix server",
-    "postinstall": "npm run build"
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC",
