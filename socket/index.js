@@ -47,4 +47,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(10000);
+io.listen("https://chat-app-test-1sr1.onrender.com/");
