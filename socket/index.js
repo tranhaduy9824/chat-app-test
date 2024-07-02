@@ -1,11 +1,8 @@
 const { Server } = require("socket.io");
-const express = require("express");
-const app = express();
-const http = require("http");
-const server = http.createServer(app);
-const io = new Server(server, {
+
+const io = new Server({
   cors: {
-    origin: ["https://chat-app-test-1sr1.onrender.com/"],
+    origin: ["http://localhost:5000"],
     methods: ["GET", "POST"],
   },
 });
@@ -50,6 +47,4 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+io.listen(process.env.PORT || 3000);
