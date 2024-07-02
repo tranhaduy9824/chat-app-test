@@ -3,7 +3,6 @@ const { Server } = require("socket.io");
 const io = new Server({
   cors: {
     origin: "https://chat-app-test-1sr1.onrender.com",
-    // origin: "http://localhost:5000",
     methods: ["GET", "POST"],
   },
 });
@@ -49,3 +48,4 @@ io.on("connection", (socket) => {
 });
 
 // io.listen(process.env.PORT || 3000);
+io.listen(3000);
