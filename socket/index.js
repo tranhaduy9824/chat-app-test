@@ -47,4 +47,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(process.env.PORT || 3000);
+io.listen(10000);
