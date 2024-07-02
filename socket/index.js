@@ -1,6 +1,9 @@
 const { Server } = require("socket.io");
-
-const io = new Server({
+const express = require("express");
+const app = express();
+const http = require("http");
+const server = http.createServer(app);
+const io = new Server(server, {
   cors: {
     origin: ["https://chat-app-test-1sr1.onrender.com/"],
     methods: ["GET", "POST"],
@@ -47,4 +50,6 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3000);
+server.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
