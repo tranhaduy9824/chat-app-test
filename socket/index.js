@@ -2,7 +2,7 @@ const { Server } = require("socket.io");
 
 const io = new Server({
   cors: {
-    origin: ["http://localhost:5000"],
+    origin: ["https://chat-app-test-1sr1.onrender.com/"],
     methods: ["GET", "POST"],
   },
 });
@@ -47,4 +47,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3005);
+io.listen(3000);
