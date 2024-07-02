@@ -22,8 +22,7 @@ export const ChatContextProvider = ({ children, user }) => {
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    // const newSocket = io("https://chat-app-test-1sr1.onrender.com");
-    const newSocket = io(`http://localhost:${process.env.SOCKET_PORT || 3001}`);
+    const newSocket = io("https://chat-app-test-1sr1.onrender.com");
     setSocket(newSocket);
 
     return () => {
