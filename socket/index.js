@@ -7,8 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    // origin: "https://chat-app-test-1sr1.onrender.com",
-    origin: "http://localhost:10000",
+    origin: "https://chat-app-test-1sr1.onrender.com",
     methods: ["GET", "POST"],
   },
 });
@@ -54,6 +53,5 @@ io.on("connection", (socket) => {
   });
 });
 
-const socketPort = process.env.SOCKET_PORT || 3001;
+const socketPort = 3000;
 io.listen(socketPort);
-console.log(`Socket is running on port ${socketPort}`);
