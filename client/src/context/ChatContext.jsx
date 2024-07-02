@@ -22,7 +22,8 @@ export const ChatContextProvider = ({ children, user }) => {
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    const newSocket = io("https://chat-app-test-1sr1.onrender.com");
+    // const newSocket = io("https://chat-app-test-1sr1.onrender.com");
+    const newSocket = io(`http://localhost:${process.env.SOCKET_PORT || 3001}`);
     setSocket(newSocket);
 
     return () => {
@@ -225,23 +226,25 @@ export const ChatContextProvider = ({ children, user }) => {
     []
   );
 
-  const markThisUserNotificationsAsRead = useCallback((thisUserNotifications, notifications) => {
-    const mNotifications = notifications.map(el => {
-      let notification;
+  const markThisUserNotificationsAsRead = useCallback(
+    (thisUserNotifications, notifications) => {
+      const mNotifications = notifications.map((el) => {
+        let notification;
 
-      thisUserNotifications.forEach(n => {
-        if (n.senderId === el.senderId) {
-          notification = {...n, isRead: true}
-        } else {
-          notification = el
-        }
-      })
+        thisUserNotifications.forEach((n) => {
+          if (n.senderId === el.senderId) {
+            notification = { ...n, isRead: true };
+          } else {
+            notification = el;
+          }
+        });
 
-      return notification
-    })
+        return notification;
+      });
 
-    setNotifications(mNotifications)
-  })
+      setNotifications(mNotifications);
+    }
+  );
 
   return (
     <ChatContext.Provider
@@ -262,7 +265,7 @@ export const ChatContextProvider = ({ children, user }) => {
         allUsers,
         markAllNotificationsAsRead,
         martNotificationAsRead,
-        markThisUserNotificationsAsRead
+        markThisUserNotificationsAsRead,
       }}
     >
       {children}

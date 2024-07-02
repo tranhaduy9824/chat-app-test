@@ -54,4 +54,6 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3000);
+const socketPort = process.env.SOCKET_PORT || 3001;
+io.listen(socketPort);
+console.log(`Socket is running on port ${socketPort}`);
