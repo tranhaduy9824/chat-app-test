@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "find-port": "^3.0.0",
     "socket.io": "^4.7.5"
   }
 }

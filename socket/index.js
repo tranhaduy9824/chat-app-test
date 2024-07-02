@@ -1,72 +1,57 @@
 const { Server } = require("socket.io");
-const findPort = require('find-port');
+const http = require("http");
+const express = require("express");
+
+const app = express();
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    // origin: "https://chat-app-test-1sr1.onrender.com",
+    origin: "http://localhost:5000",
+    methods: ["GET", "POST"],
+  },
+});
 
 let onlineUsers = [];
 
-function startServer() {
-  findPort(10000, 10100, (err, ports) => {
-    if (err) {
-      console.error(err);
-      return;
+io.on("connection", (socket) => {
+  console.log("New connection", socket.id);
+
+  // listen to a connection
+  socket.on("addNewUser", (userId) => {
+    if (!onlineUsers.some((user) => user.userId === userId)) {
+      onlineUsers.push({
+        userId,
+        socketId: socket.id,
+      });
     }
 
-    const port = ports[0];
-    const io = new Server({
-      cors: {
-        origin: "https://chat-app-test-1sr1.onrender.com",
-        methods: ["GET", "POST"],
-      },
-    });
+    console.log("onlineUsers", onlineUsers);
 
-    io.on("connection", (socket) => {
-      console.log("New connection", socket.id);
-
-      socket.on("addNewUser", (userId) => {
-        !onlineUsers.some((user) => user.userId === userId) &&
-          onlineUsers.push({
-            userId,
-            socketId: socket.id,
-          });
-
-        console.log("onlineUsers", onlineUsers);
-
-        io.emit("getOnlineUsers", onlineUsers);
-      });
-
-      socket.on("sendMessage", (message) => {
-        const user = onlineUsers.find(
-          (user) => user.userId === message.recipientId
-        );
-
-        if (user) {
-          io.to(user.socketId).emit("getMessage", message);
-          io.to(user.socketId).emit("getNotifications", {
-            senderId: message.senderId,
-            isRead: false,
-            date: new Date(),
-          });
-        }
-      });
-
-      socket.on("disconnect", () => {
-        onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
-
-        io.emit("getOnlineUsers", onlineUsers);
-      });
-    });
-
-    io.on('error', (err) => {
-      if (err.code === 'EADDRINUSE') {
-        console.error(`Port ${err.port} is already in use`);
-        startServer(); // Retry with a different port
-      } else {
-        console.error(err);
-      }
-    });
-
-    io.listen(port);
-    console.log(`Server listening on port ${port}`);
+    io.emit("getOnlineUsers", onlineUsers);
   });
-}
 
-startServer();
+  socket.on("sendMessage", (message) => {
+    const user = onlineUsers.find(
+      (user) => user.userId === message.recipientId
+    );
+
+    if (user) {
+      io.to(user.socketId).emit("getMessage", message);
+      io.to(user.socketId).emit("getNotifications", {
+        senderId: message.senderId,
+        isRead: false,
+        date: new Date(),
+      });
+    }
+  });
+
+  socket.on("disconnect", () => {
+    onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
+
+    io.emit("getOnlineUsers", onlineUsers);
+  });
+});
+
+io.listen(process.env.PORT || 3000);
