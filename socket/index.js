@@ -2,7 +2,7 @@ const { Server } = require("socket.io");
 
 const io = new Server({
   cors: {
-    origin: [`http://localhost:${process.env.PORT || 5000}`],
+    origin: ["http://localhost:5000"],
     methods: ["GET", "POST"],
   },
 });
@@ -47,4 +47,4 @@ io.on("connection", (socket) => {
   });
 });
 
-// io.listen(3000);
+io.listen(process.env.PORT || 3000);
