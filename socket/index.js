@@ -47,6 +47,4 @@ io.on("connection", (socket) => {
   });
 });
 
-const server = require("http").createServer();
-io.attach(server);
-server.listen(process.env.PORT || 3000);
+io.listen(3005);
