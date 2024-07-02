@@ -1,5 +1,5 @@
 const userModel = require("../models/userModel");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 
@@ -29,8 +29,8 @@ const registerUser = async (req, res) => {
 
     user = new userModel({ name, email, password });
 
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+    const salt = await bcryptjs.genSalt(10);
+    user.password = await bcryptjs.hash(user.password, salt);
 
     await user.save();
 
@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
 
     if (!user) return res.status(400).json("Invalid email or password");
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcryptjs.compare(password, user.password);
 
     if (!isValidPassword) return res.status(400).json("Invalid email or password");
 
