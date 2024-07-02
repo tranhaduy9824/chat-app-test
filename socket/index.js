@@ -2,7 +2,7 @@ const { Server } = require("socket.io");
 
 const io = new Server({
   cors: {
-    origin: "https://chat-app-test-1sr1.onrender.com",
+    origin: "https://localhost:10000",
     methods: ["GET", "POST"],
   },
 });
@@ -47,4 +47,5 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(process.env.PORT_SOCKET || 3000);
+const port = process.env.PORT_SOCKET ? process.env.PORT_SOCKET : 0;
+io.listen(port);
