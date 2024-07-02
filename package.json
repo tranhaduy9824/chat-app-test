@@ -4,7 +4,7 @@
   "description": "",
   "main": "/server/index.js",
   "scripts": {
-    "start": "concurrently \"node server/index.js\" \"node socket/index.js\"",
+    "start": "nodemon server/index.js",
     "server": "nodemon server/index.js",
     "socket": "nodemon socket/index.js",
     "build": "npm install && npm install --prefix client && npm run build --prefix client"
@@ -22,7 +22,6 @@
     "validator": "^13.12.0"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
     "nodemon": "^3.1.4"
   }
 }
