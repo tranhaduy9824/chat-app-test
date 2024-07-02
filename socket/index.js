@@ -1,6 +1,11 @@
 const { Server } = require("socket.io");
 
-const io = new Server({ cors: "https://chat-app-test-1sr1.onrender.com/3000" });
+const io = new Server({
+  cors: {
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST"],
+  },
+});
 
 let onlineUsers = [];
 
@@ -21,14 +26,16 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", (message) => {
-    const user = onlineUsers.find((user) => user.userId === message.recipientId);
+    const user = onlineUsers.find(
+      (user) => user.userId === message.recipientId
+    );
 
     if (user) {
       io.to(user.socketId).emit("getMessage", message);
       io.to(user.socketId).emit("getNotifications", {
         senderId: message.senderId,
         isRead: false,
-        date: new Date()
+        date: new Date(),
       });
     }
   });
@@ -40,4 +47,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen("https://chat-app-test-1sr1.onrender.com/3000");
+io.listen(3000);
