@@ -41,7 +41,7 @@ export const ChatContextProvider = ({ children, user }) => {
     return () => {
       socket.off("getOnlineUsers");
     };
-  }, [socket]);
+  }, [socket, user]);
 
   useEffect(() => {
     if (socket === null) return;
@@ -225,23 +225,25 @@ export const ChatContextProvider = ({ children, user }) => {
     []
   );
 
-  const markThisUserNotificationsAsRead = useCallback((thisUserNotifications, notifications) => {
-    const mNotifications = notifications.map(el => {
-      let notification;
+  const markThisUserNotificationsAsRead = useCallback(
+    (thisUserNotifications, notifications) => {
+      const mNotifications = notifications.map((el) => {
+        let notification;
 
-      thisUserNotifications.forEach(n => {
-        if (n.senderId === el.senderId) {
-          notification = {...n, isRead: true}
-        } else {
-          notification = el
-        }
-      })
+        thisUserNotifications.forEach((n) => {
+          if (n.senderId === el.senderId) {
+            notification = { ...n, isRead: true };
+          } else {
+            notification = el;
+          }
+        });
 
-      return notification
-    })
+        return notification;
+      });
 
-    setNotifications(mNotifications)
-  })
+      setNotifications(mNotifications);
+    }
+  );
 
   return (
     <ChatContext.Provider
@@ -262,7 +264,7 @@ export const ChatContextProvider = ({ children, user }) => {
         allUsers,
         markAllNotificationsAsRead,
         martNotificationAsRead,
-        markThisUserNotificationsAsRead
+        markThisUserNotificationsAsRead,
       }}
     >
       {children}
